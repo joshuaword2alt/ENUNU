@@ -1,82 +1,58 @@
-# ENUNU
+UTAU plug-in that allows you to use the singing voice model for NNSVS like a UTAU sound source
 
-NNSVS用歌声モデルをUTAU音源みたいに使えるようにするUTAUプラグイン
+Installation and usage articles
+Use the NNSVS model with UTAU! (ENUNU)
 
-## インストールと使い方の記事
+How to use
+Open UST and set the UTAU sound source including the model for ENUNU to the original sound file set. Example) "Futon P (ENUNU)" ・ ・ ・ Futon P singing voice model for NNSVS for ENUNU
+Make the lyrics of UST a single hiragana sound.
+Select the part you want to play and start ENUNU as a plug-in.
+~ Wait a few seconds or a few minutes ~
+The selected WAV file is generated in the same folder as the UST file.
+Usage tips
+It is recommended to include the sokuon in the previous note.
+[Sa] [tsu] [po] [ro] → [sa] [po] [ro]
+It does not support multi-character hiragana lyrics other than sokuon.
+You can directly enter phonemes separated by blanks. It can be used with Hiragana, but it cannot be mixed in one note.
+[I] [ra] [n] [ka] [ra] [pu] [te] → [i] [r a] [N] [k a] [ra] [p] [te]
+Direct input of phonemes allows you to include more than one syllable in a note.
+[Sat] [Po] [Ro] → [Sat] [p o r o]
+terms of service
+Please follow the rules of each character when using. Also, the terms of this software are included separately as his LICENSE file.
 
-[UTAUでNNSVSモデルを使おう！（ENUNU）](https://note.com/crazy_utau/n/n45db22b33d2c)
+From here on, it's for developers
 
-## 使い方
+Development environment
+Windows 10
+Python 3.8 (3.9 is not supported by Pytorch)
+utaupy 1.14.1
+numpy 1.21.2 (1.19.4 doesn't work due to a Windows bug)
+torch 1.7.0 + cu101
+nnsvs development version
+nnmnkwii
+CUDA 11.0
+How to create a UTAU sound source folder for ENUNU
+You can use the normal NNSVS singing voice model, but I think it's a little more stable if you use the recipe for ENUNU. It is recommended to include a redistributable UTAU single sound source for checking the pitch when transcribing.
 
-1. USTを開き、ENUNU用モデルを含むUTAU音源を原音ファイルセットに設定する。
-   例）「おふとんP (ENUNU)」・・・ENUNU向けのNNSVS用おふとんP歌声モデル
-2. USTの歌詞をひらがな単独音にする。
-3. 再生したい部分を選択し、プラグインとしてENUNUを起動する。
-4. ～ 数秒か数分待つ ～
-5. 選択部分のWAVファイルがUSTファイルと同一フォルダに生成される。
+When using a normal model
+Add enuconfig.yaml to the root directory of the model and rewrite it referring to the Futon P singing voice model for ENUNU. For question_path, specify the one used for learning and include it. trained_for_enunu should be false.
 
-## 使い方ヒント
+When using the model for ENUNU
+Add enuconfig.yaml to the root directory of the model and rewrite it referring to the Futon P singing voice model for ENUNU. For question_path, specify the one used for learning and include it. trained_for_enunu should be true.
 
-- 促音(っ)は、直前のノートに含めることをお勧めします。
-  - \[さ]\[っ]\[ぽ]\[ろ] → \[さっ]\[ぽ]\[ろ]
-- 促音以外の複数文字の平仮名歌詞には対応していません。
-- 音素を空白区切りで直接入力できます。平仮名と併用できますが、1ノート内に混在させることはできません。
-  - \[い]\[ら]\[ん]\[か]\[ら]\[ぷ]\[て] → \[i]\[r a]\[N]\[k a]\[ら]\[p]\[て]
-- 音素の直接入力により、1ノート内に2音節以上を含めることができます。
-  - \[さっ]\[ぽ]\[ろ] → \[さっ]\[p o r o]
+Remarks about label file
+The full context label specification is different from that of Sinsy. The important differences are:
 
-## 利用規約
-
-利用時は各キャラクターの規約に従ってください。また、本ソフトウェアの規約は LICENSE ファイルとして別途同梱しています。
-
-
-
----
-
-ここからは開発者向けです
-
----
-
-
-
-## 開発環境
-
-- Windows 10
-- Python 3.8（3.9はPytorchが未対応）
-  - utaupy 1.14.1
-  - numpy 1.21.2（1.19.4 はWindowsのバグで動かない）
-  - torch 1.7.0+cu101
-  - nnsvs 開発バージョン
-  - nnmnkwii
-- CUDA 11.0
-
-## ENUNU向けUTAU音源フォルダの作り方
-
-通常のNNSVS用歌声モデルも使えますが、[ENUNU専用のレシピ](https://github.com/oatsu-gh/ENUNU/tree/main/train)を使ったほうがすこし安定すると思います。採譜時の音程チェック用に、再配布可のUTAU単独音音源の同梱をお勧めします。
-
-### 通常のモデルを使う場合
-
-モデルのルートディレクトリに enuconfig.yaml を追加し、ENUNU用おふとんP歌声モデルなどを参考にして書き換えてください。`question_path` は学習に使ったものを指定し、同梱してください。`trained_for_enunu` は **`false`** としてください。
-
-### ENUNU用のモデルを使う場合
-
-モデルのルートディレクトリに enuconfig.yaml を追加し、ENUNU用おふとんP歌声モデルなどを参考にして書き換えてください。`question_path` は学習に使ったものを指定し、同梱してください。`trained_for_enunu` は **`true`** としてください。
-
-## ラベルファイルに関する備考
-
-フルコンテキストラベルの仕様がSinsyのものと異なります。重要な相違点は以下です。
-
-- フレーズに関する情報を扱わない（e18-e25,  g,  h,  i,  j3）
-- ノートの強弱などの音楽記号を扱わない（e26-e56）
-- 小節に関する情報を扱わない（e10-e17,  j2,  j3）
-- 拍に関する情報を扱わない（c4,  d4,  e4）
-- ノートの相対音高（d2,  e2,  f2）の仕様が異なる
-  - ノートのキーを取得できない関係上、オクターブ情報を無視し、Cを0とした相対音高としている。
-- ノートのキー（d3,  e3,  f3）を120に固定
-  - 手動指定しない場合は120
-  - 12の倍数 かつ Sinsyのラベルでは出現しない値 であれば代用できる。（24など）
-- **休符を挟んだ場合のノートおよび音節の前後情報（a, c, d, f）が異なる**
-  - Sinsyの仕様では、休符の直前のノートが持つ「次のノート」の情報は休符終了後のノートを指しますが、本ツールでは休符を指す設計としています。
-  - 休符の直後のノートも同様に、休符開始前ではなく休符そのものを指す設計としています。
-  - 音節も同様です。
-
+Does not handle information about phrases (e18-e25, g, h, i, j3)
+Do not handle musical symbols such as note strength (e26-e56)
+Does not handle information about measures (e10-e17, j2, j3)
+Does not handle information about beats (c4, d4, e4)
+The specifications of the relative pitch (d2, e2, f2) of the note are different.
+Since the key of the note cannot be obtained, the octave information is ignored and the relative pitch is set to 0.
+Fixed note key (d3, e3, f3) to 120
+120 if not specified manually
+Any value that is a multiple of 12 and does not appear on the Sinsy label can be substituted. (24 etc.)
+Different information (a, c, d, f) before and after notes and syllables when rests are inserted
+According to the Sinsy specifications, the information of the "next note" of the note immediately before the rest refers to the note after the rest, but this tool is designed to indicate the rest.
+Similarly, the note immediately after the rest is designed to point to the rest itself, not before the start of the rest.
+The same is true for syllables.
